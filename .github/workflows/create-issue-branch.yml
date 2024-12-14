@@ -1,0 +1,13 @@
+name: Create Issue Branch
+on:
+  issues:
+    types: [opened] # 이슈가 생성될 때만 트리거
+jobs:
+  create_issue_branch_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Issue Branch
+        uses: robvanderleek/create-issue-branch@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_NAME: "#${{ github.event.issue.number }}"
