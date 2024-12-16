@@ -10,4 +10,4 @@ jobs:
         uses: robvanderleek/create-issue-branch@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: "#${{ github.event.issue.number }}"
+          BRANCH_NAME: "2048#${{ github.event.issue.number }}"
