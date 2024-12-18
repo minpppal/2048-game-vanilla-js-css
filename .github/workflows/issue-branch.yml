@@ -6,11 +6,12 @@ on:
 
 jobs:
   create-branch:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Create Issue Branch
-        uses: robvanderleek/create-issue-branch@main
+        uses: robvanderleek/create-issue-branch@v2
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branchName: "2048/#${{ github.event.issue.number }}"
           autoCloseIssue: true
           openDraftPR: true
