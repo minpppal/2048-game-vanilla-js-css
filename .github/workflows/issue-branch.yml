@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Create Issue Branch
-        uses: robvanderleek/create-issue-branch@v2
+        uses: robvanderleek/create-issue-branch@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branchName: "2048/#${{ github.event.issue.number }}"
