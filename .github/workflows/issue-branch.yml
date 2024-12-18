@@ -1,40 +1,27 @@
-name: Issue Branch
-
 on:
   issues:
-    types: [opened]
+    types: [assigned]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
-  create-branch:
-    runs-on: ubuntu-22.04
+  create_issue_branch_job:
+    runs-on: ubuntu-latest
     steps:
-      - name: Create Issue Branch
-        uses: robvanderleek/create-issue-branch@main
+      - name: Checkout dev branch
+        uses: actions/checkout@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branchName: "2048/#${{ github.event.issue.number }}"
-          autoCloseIssue: true
-          openDraftPR: true
-          copyIssueLabelsToPR: true
-          copyIssueAssigneeToPR: true
-          branches: |
-            - label: 🐛 Bug
-              prefix: bugfix/
-            - label: 🩹 Simple Fix
-              prefix: bugfix/
-            - label: 🚨 HOTFIX
-              prefix: hotfix/
-            - label: 👷 CI
-              prefix: env/
-            - label: ⚙️ Setting
-              prefix: env/
-            - label: 💄 Design
-              prefix: feature/
-            - label: ✨ Feature
-              prefix: feature/
-            - label: ♻️ Refactor
-              prefix: feature/
-            - label: ✅ Test
-              prefix: feature/
-            - label: 📝 Document
-              prefix: docs/
+          ref: dev
+
+      - name: Create a new branch
+        run: |
+          BRANCH_NAME="2048-${{ github.event.issue.number }}"
+          git checkout -b $BRANCH_NAME
+          git push origin $BRANCH_NAME
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
