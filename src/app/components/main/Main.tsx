@@ -1,5 +1,5 @@
 import React from "react";
-import KakaoLoginButton from "./kakaoLoginButton/KakaoLoginButton";
+import KakaoLoginButton from "./kakaoLogin/KakaoLoginButton";
 const Main = () => {
   return (
     <div>
