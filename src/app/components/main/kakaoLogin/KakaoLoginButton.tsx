@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 interface KakaoAuthResponse {
@@ -11,13 +11,31 @@ interface KakaoAuthResponse {
 }
 
 const KakaoLoginButton = () => {
+  const [isKakaoLoaded, setIsKakaoLoaded] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.Kakao) {
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init(
+          process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY as string
+        );
+        console.log("Kakao SDK 초기화 완료");
+      }
+      setIsKakaoLoaded(true);
+    }
+  }, []);
+
   const handleKakaoLogin = () => {
-    // window.Kakao가 존재하는지 확인
-    if (typeof window === "undefined" || !window.Kakao || !window.Kakao.Auth) {
-      alert("Kakao SDK가 로드되지 않았습니다. 새로고침 해주세요.");
+    if (!isKakaoLoaded) {
+      alert("Kakao SDK가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.");
       return;
     }
-    // 카카오 로그인 요청
+
+    if (!window.Kakao.Auth) {
+      alert("Kakao Auth 객체가 정의되지 않았습니다.");
+      return;
+    }
+
     window.Kakao.Auth.login({
       success: (authObj: KakaoAuthResponse) => {
         console.log("로그인 성공:", authObj);
@@ -25,7 +43,7 @@ const KakaoLoginButton = () => {
       },
       fail: (err: unknown) => {
         console.error("로그인 실패:", err);
-        alert("로그인 실패!");
+        alert("로그인 실패! 다시 시도해주세요.");
       },
     });
   };
