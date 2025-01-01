@@ -1,0 +1,28 @@
+name: Set PR title from commit message
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  set-pr-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get commit message and set PR title
+        run: |
+          # 최신 커밋 메시지 추출
+          COMMIT_MSG=$(git log -1 --pretty=%s)  # 첫 번째 줄만 추출
+
+          # PR 제목 설정
+          PR_TITLE="$COMMIT_MSG"
+
+          # GitHub API를 사용해 PR 제목 업데이트
+          curl -X PATCH \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d "{\"title\": \"$PR_TITLE\"}" \
+            https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
