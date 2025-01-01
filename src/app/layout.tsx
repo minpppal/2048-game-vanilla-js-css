@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
-import KakaoScript from "./components/main/kakaoLogin/KakaoScript";
+// import KakaoScript from "./components/main/kakaoLogin/KakaoScript";
 
 const pretendard = localFont({
   src: "../app/fonts/PretendardVariable.woff2",
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="kr" className={`${pretendard.variable}`}>
       <body className={pretendard.className}>{children}</body>
-      <KakaoScript />
+      {/* <KakaoScript /> */}
     </html>
   );
 }
