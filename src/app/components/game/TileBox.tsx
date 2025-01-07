@@ -39,6 +39,32 @@ const TileBox: React.FC = () => {
     console.log("두번째숫자");
   }, []); // 컴포넌트가 처음 렌더링될 때만 실행
 
+  /**
+   * 방향키 입력 처리
+   */
+  const handleKeyDown = (event: KeyboardEvent) => {
+    switch (event.key) {
+      case "ArrowUp":
+        moveTiles("up");
+        console.log("윗키");
+        break;
+      case "ArrowUp":
+        moveTiles("up");
+        console.log("윗키");
+        break;
+      case "ArrowUp":
+        moveTiles("up");
+        console.log("윗키");
+        break;
+      case "ArrowUp":
+        moveTiles("up");
+        console.log("윗키");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="bg-orange-200 p-4  rounded-lg shadow-lg w-[466px] h-[480px] flex flex-wrap  box-border gap-4">
       {tileNumbers.map((num, index) => (
