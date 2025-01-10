@@ -81,10 +81,8 @@ const TileBox: React.FC = () => {
           row = row.filter((num) => num !== null);
           for (let j = 0; j < row.length; j++) {
             if (row[j] === row[j + 1]) {
-              console.log(`합쳐지는 값: ${row[j]}와 ${row[j + 1]}`);
               row[j] = row[j]! * 2;
               row[j + 1] = null; //뒤 숫자는 null로 변환
-              console.log(`합친 후 row:`, row);
             }
           }
 
@@ -100,9 +98,39 @@ const TileBox: React.FC = () => {
           newTiles.splice(i * 4, 4, ...newRow); // 행 하나를 전부 지우고 새로운 배열 삽입
         }
       } else if (direction === "up" || direction === "down") {
-        // for(let i=0; i<4; i++){
-        //   let column =
-        // }
+        for (let i = 0; i < 4; i++) {
+          //열 추출
+          let column = [
+            prevTiles[i],
+            prevTiles[i + 4],
+            prevTiles[i + 8],
+            prevTiles[i + 12],
+          ];
+          if (direction === "down") column.reverse();
+
+          //null 제거하기
+          column = column.filter((num) => num !== null);
+          for (let j = 0; j < column.length; j++) {
+            if (column[j] === column[j + 1]) {
+              column[j] = column[j]! * 2;
+              column[j + 1] = null;
+            }
+          }
+
+          //null 제거 후 위쪽 정렬
+          const newColumn: Array<number | null> = column.filter(
+            (num) => num !== null
+          );
+          while (newColumn.length < 4) {
+            newColumn.push(null);
+          }
+          if (direction === "down") newColumn.reverse();
+          //계산된 열을 기존 타일 배열에 적용
+          newTiles[i] = newColumn[0];
+          newTiles[i + 4] = newColumn[1];
+          newTiles[i + 8] = newColumn[2];
+          newTiles[i + 12] = newColumn[3];
+        }
       }
       return newTiles;
     });
