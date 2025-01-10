@@ -74,15 +74,17 @@ const TileBox: React.FC = () => {
       if (direction === "left" || direction === "right") {
         for (let i = 0; i < 4; i++) {
           // 각 행을 추출
-          let row = tileNumbers.slice(i * 4, i * 4 + 4);
+          let row = prevTiles.slice(i * 4, i * 4 + 4);
           if (direction === "right") row.reverse(); // 오른쪽 이동이면 반전
 
           //null 제거하기 (앞뒤 숫자가 같은지 판단하기위해서)
           row = row.filter((num) => num !== null);
           for (let j = 0; j < row.length; j++) {
             if (row[j] === row[j + 1]) {
+              console.log(`합쳐지는 값: ${row[j]}와 ${row[j + 1]}`);
               row[j] = row[j]! * 2;
               row[j + 1] = null; //뒤 숫자는 null로 변환
+              console.log(`합친 후 row:`, row);
             }
           }
 
@@ -98,6 +100,9 @@ const TileBox: React.FC = () => {
           newTiles.splice(i * 4, 4, ...newRow); // 행 하나를 전부 지우고 새로운 배열 삽입
         }
       } else if (direction === "up" || direction === "down") {
+        // for(let i=0; i<4; i++){
+        //   let column =
+        // }
       }
       return newTiles;
     });
