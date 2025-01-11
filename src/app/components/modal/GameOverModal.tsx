@@ -1,6 +1,6 @@
 import React from "react";
 
-const GameOver = () => {
+const GameOverModal = () => {
   return (
     <div className="w-[300px] h-[200px] bg-slate-400">
       Game Over
@@ -9,4 +9,4 @@ const GameOver = () => {
   );
 };
 
-export default GameOver;
+export default GameOverModal;

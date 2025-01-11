@@ -1,5 +1,7 @@
 import React from "react";
 import TileBox from "./TileBox";
+import GameOverModal from "../modal/GameOverModal";
+
 const Game = () => {
   return (
     <div className="flex flex-col justify-center items-center w-[500px] mt-[100px]">
