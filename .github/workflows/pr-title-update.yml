@@ -14,12 +14,12 @@ jobs:
       - name: Get commit message and set PR title
         run: |
           # 최신 커밋 메시지 추출
-          COMMIT_MSG=$(git log -1 --pretty=%s)  # 첫 번째 줄만 추출
+          COMMIT_MSG=$(git log -1 --pretty=%s)
+
+          # 커밋 메시지에서 해시 제거
+          PR_TITLE=$(echo "$COMMIT_MSG" | sed 's/#[0-9a-f]\{40\}//g')  # 커밋 해시(40자리)를 제거
 
           # PR 제목 설정
-          PR_TITLE="$COMMIT_MSG"
-
-          # GitHub API를 사용해 PR 제목 업데이트
           curl -X PATCH \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -d "{\"title\": \"$PR_TITLE\"}" \
