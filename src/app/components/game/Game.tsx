@@ -1,6 +1,6 @@
 import React from "react";
 import TileBox from "./TileBox";
-import GameOverModal from "../modal/GameOverModal";
+// import GameOverModal from "../modal/GameOverModal";
 
 const Game = () => {
   return (
