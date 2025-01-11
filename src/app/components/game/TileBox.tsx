@@ -17,6 +17,7 @@ const TileBox: React.FC = () => {
         .filter((index): index is number => index !== null);
 
       if (emptyIndices.length === 0) {
+        alert("Game Over!");
         return prevTiles; // 빈 칸이 없으면 아무 것도 하지 않음
       }
 
@@ -132,10 +133,14 @@ const TileBox: React.FC = () => {
           newTiles[i + 12] = newColumn[3];
         }
       }
+      // 이동 또는 합쳐짐이 발생했는지 확인
+      const isChanged = JSON.stringify(prevTiles) !== JSON.stringify(newTiles);
+      // 이동이 발생한 경우에만 새로운 타일 추가
+      if (isChanged) {
+        addRandomTile();
+      }
       return newTiles;
     });
-    // 이동 후 랜덤 숫자 추가
-    addRandomTile();
   };
 
   useEffect(() => {
