@@ -15,7 +15,7 @@ const GameStartButton = () => {
             className="relative h-16 px-8 text-xl font-semibold bg-orange-500 hover:bg-orange-600 text-white rounded-lg shadow-lg transition-transform duration-200 ease-in-out transform hover:-translate-y-1 z-10"
             onClick={handleStartClick}
           >
-            Start Game
+            Game Start
           </button>
         </>
       )}
