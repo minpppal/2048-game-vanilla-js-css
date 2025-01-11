@@ -1,0 +1,27 @@
+on:
+  issues:
+    types: [assigned]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  create_issue_branch_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          ref: develop
+
+      - name: Create a new branch
+        run: |
+          BRANCH_NAME="2048-${{ github.event.issue.number }}"
+          git checkout -b $BRANCH_NAME
+          git push origin $BRANCH_NAME
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
