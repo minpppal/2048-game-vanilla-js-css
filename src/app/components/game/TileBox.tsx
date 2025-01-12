@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Tile from "./Tile";
+import useGameStatesStore from "@/store/gameStatesStore";
 
 const TileBox: React.FC = () => {
+  const { gameOver, setGameOver } = useGameStatesStore();
   const [tileNumbers, setTileNumbers] = useState<(number | null)[]>(
     Array(16).fill(null)
   );
@@ -17,7 +19,6 @@ const TileBox: React.FC = () => {
         .filter((index): index is number => index !== null);
 
       if (emptyIndices.length === 0) {
-        alert("Game Over!");
         return prevTiles; // 빈 칸이 없으면 아무 것도 하지 않음
       }
 
@@ -35,15 +36,14 @@ const TileBox: React.FC = () => {
   // 게임 시작 시 초기 숫자 2개 추가
   useEffect(() => {
     addRandomTile(); // 첫 번째 숫자 추가
-    console.log("첫번째숫자");
     addRandomTile(); // 두 번째 숫자 추가
-    console.log("두번째숫자");
   }, []); // 컴포넌트가 처음 렌더링될 때만 실행
 
   /**
    * 방향키 입력 처리
    */
   const handleKeyDown = (event: KeyboardEvent) => {
+    if (gameOver) return;
     switch (event.key) {
       case "ArrowUp":
         moveTiles("up");
@@ -149,6 +149,47 @@ const TileBox: React.FC = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
+  /**
+   * 게임 종료 체크
+   */
+  const checkGameOver = () => {
+    const fullNumbers = tileNumbers.every((tile) => tile !== null); //타일에 null이 안들어있으면 전부 숫자로 차있음
+    console.log("타일이 가득 찼는지 확인:", fullNumbers);
+    //숫자가 가득차지 않으면 종료
+    if (!fullNumbers) {
+      return;
+    }
+    // 모든 타일이 꽉 찬 경우, 합쳐질 수 있는 타일이 있는지 확인
+    for (let i = 0; i < 16; i++) {
+      if (i % 4 !== 0 && tileNumbers[i] === tileNumbers[i - 1]) {
+        return false;
+      }
+
+      if (i % 4 !== 3 && tileNumbers[i] === tileNumbers[i + 1]) {
+        return false;
+      }
+
+      if (i >= 4 && tileNumbers[i] === tileNumbers[i - 4]) {
+        return false;
+      }
+
+      if (i <= 11 && tileNumbers[i] === tileNumbers[i + 4]) {
+        return false;
+      }
+    }
+    console.log("게임 종료!");
+    setGameOver(true);
+    return true;
+  };
+
+  // 게임 종료 체크를 useEffect로 처리 (렌더링 후에 체크)
+  useEffect(() => {
+    if (checkGameOver()) {
+      setGameOver(true); // 게임 종료 상태 업데이트
+    }
+  }, [tileNumbers, setGameOver]); // 타일 숫자가 변경될 때마다 실행
+
   return (
     <div className="bg-orange-200 p-4  rounded-lg shadow-lg w-[466px] h-[480px] flex flex-wrap  box-border gap-4">
       {tileNumbers.map((num, index) => (
