@@ -5,8 +5,7 @@ const useGameStatesStore = create<GameStates>((set) => ({
   gameOver: false,
   setGameOver: (state: boolean) => set({ gameOver: state }),
   gameScore: 0,
-  setGameScore: (score: number) =>
-    set((state) => ({ gameScore: state.gameScore + score })),
+  setGameScore: (score: number) => set({ gameScore: score }),
 }));
 
 export default useGameStatesStore;
