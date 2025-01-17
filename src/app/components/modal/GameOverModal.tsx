@@ -18,7 +18,7 @@ const GameOverModal = () => {
         </div>
         <div
           onClick={handleClick}
-          className="cursor-pointer bg-orange-600 text-white text-xs rounded-lg py-2 px-4 mt-4"
+          className="cursor-pointer bg-orange-600 text-white text-xs rounded-lg py-2 px-4 "
         >
           Ok
         </div>
