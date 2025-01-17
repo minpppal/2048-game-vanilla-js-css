@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Tile from "./Tile";
 import useGameStatesStore from "@/store/gameStatesStore";
 
@@ -7,7 +7,7 @@ const TileBox: React.FC = () => {
   const [tileNumbers, setTileNumbers] = useState<(number | null)[]>(
     Array(16).fill(null)
   );
-
+  const scoreIncrease = useRef(0);
   /**
    * 랜덤 숫자 추가 함수
    */
@@ -71,8 +71,8 @@ const TileBox: React.FC = () => {
    */
   const moveTiles = (direction: "up" | "down" | "left" | "right") => {
     setTileNumbers((prevTiles) => {
+      let score = 0;
       const newTiles = [...prevTiles]; // 새로운 배열 복사
-      let scoreIncrease = 0;
 
       if (direction === "left" || direction === "right") {
         for (let i = 0; i < 4; i++) {
@@ -85,7 +85,7 @@ const TileBox: React.FC = () => {
           for (let j = 0; j < row.length; j++) {
             if (row[j] === row[j + 1]) {
               row[j] = row[j]! * 2;
-              scoreIncrease += row[j] ?? 0;
+              score += row[j] ?? 0;
               row[j + 1] = null; //뒤 숫자는 null로 변환
             }
           }
@@ -117,7 +117,7 @@ const TileBox: React.FC = () => {
           for (let j = 0; j < column.length; j++) {
             if (column[j] === column[j + 1]) {
               column[j] = column[j]! * 2;
-              scoreIncrease += column[j] ?? 0;
+              score += column[j] ?? 0;
               column[j + 1] = null;
             }
           }
@@ -142,12 +142,18 @@ const TileBox: React.FC = () => {
       // 이동이 발생한 경우에만 새로운 타일 추가
       if (isChanged) {
         addRandomTile();
-        setGameScore(scoreIncrease); // 스코어 업데이트
       }
+      // scoreIncrease.ref에 직접 할당
+      scoreIncrease.current += score;
       return newTiles;
     });
   };
 
+  useEffect(() => {
+    setGameScore(scoreIncrease.current);
+  }, [tileNumbers]);
+
+  //2번씩 실행되는거 막아주는거
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
