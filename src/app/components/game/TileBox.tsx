@@ -1,6 +1,8 @@
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 import Tile from "./Tile";
 import useGameStatesStore from "@/store/gameStatesStore";
+import GameOverModal from "../modal/GameOverModal";
 
 const TileBox: React.FC = () => {
   const { gameOver, setGameOver, setGameScore } = useGameStatesStore();
@@ -199,13 +201,18 @@ const TileBox: React.FC = () => {
     if (checkGameOver()) {
       setGameOver(true); // 게임 종료 상태 업데이트
     }
-  }, [tileNumbers, setGameOver]); // 타일 숫자가 변경될 때마다 실행
+  }, [tileNumbers]); // 타일 숫자가 변경될 때마다 실행
 
   return (
-    <div className="bg-orange-200 p-4  rounded-lg shadow-lg w-[466px] h-[480px] flex flex-wrap  box-border gap-4">
-      {tileNumbers.map((num, index) => (
-        <Tile key={index} number={num} />
-      ))}
+    <div className="relative w-[466px] h-[480px] flex flex-wrap gap-4">
+      {/* 게임 진행 중에 모달이 덮어씌워지도록 설정 */}
+      {gameOver && <GameOverModal />}
+
+      <div className="bg-orange-200 p-4 rounded-lg shadow-lg w-full h-full flex flex-wrap gap-4">
+        {tileNumbers.map((num, index) => (
+          <Tile key={index} number={num} />
+        ))}
+      </div>
     </div>
   );
 };
