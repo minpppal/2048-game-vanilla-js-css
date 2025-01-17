@@ -1,18 +1,27 @@
+"use client";
 import React from "react";
-import { useRouter } from "next/router";
+import useGameStatesStore from "@/store/gameStatesStore";
 
 const GameOverModal = () => {
-  const router = useRouter();
-
-  const handleOkClick = () => {
-    router.push("/");
+  const { gameScore } = useGameStatesStore();
+  const handleClick = () => {
+    console.log("Ok clicked, reloading...");
+    window.location.reload(); // 새로고침
   };
 
   return (
-    <div className="w-[300px] h-[200px] bg-slate-400">
-      Game Over
-      <div className="cursor-pointer" onClick={handleOkClick}>
-        Ok
+    <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-10 z-10">
+      <div className="w-[200px] h-[180px] bg-white flex flex-col justify-center items-center rounded-lg z-20">
+        <h2 className="font-bold text-orange-600 text-3xl mb-4">Game Over!</h2>
+        <div className="font-bold text-black text-xl mb-4">
+          Your score : {gameScore}
+        </div>
+        <div
+          onClick={handleClick}
+          className="cursor-pointer bg-orange-600 text-white text-xs rounded-lg py-2 px-4 mt-4"
+        >
+          Ok
+        </div>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 // import KakaoLoginButton from "./kakaoLogin/KakaoLoginButton";
 import GameStartButton from "./gameStartButton/GameStartButton";
