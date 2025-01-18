@@ -3,4 +3,6 @@ export default interface GameStates {
   setGameOver: (state: boolean) => void; //함수 타입이라서 void
   gameScore: number;
   setGameScore: (score: number) => void;
+  rankName: string;
+  setRankName: (name: string) => void;
 }
