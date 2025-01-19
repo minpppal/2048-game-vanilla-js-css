@@ -40,6 +40,7 @@ const GameOverModal = () => {
           placeholder="Enter your name"
           value={rankName}
           onChange={(e) => setRankName(e.target.value)}
+          maxLength={6}
           className="border border-gray-300 rounded-md p-2 mb-3  text-center w-[150px] h-[30px] text-sm"
         />
         <div
