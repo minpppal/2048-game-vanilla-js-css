@@ -19,21 +19,27 @@ const Rank = () => {
 
   return (
     <div className="relative">
-      <div className="bg-orange-100 p-4 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4 text-orange-800">
+      <div className="bg-orange-100 p-4 rounded-lg shadow-lg h-[630px] mt-[100px]">
+        <h2 className="text-2xl font-bold mb-4 text-orange-800 text-center">
           Top 10 Rankings
         </h2>
         <div>
-          <div>
-            <span className="w-[100px]">Rank</span>
-            <span>Name</span>
-            <span className="text-right">Score</span>
+          <div className="flex mb-[5px]">
+            <span className=" text-gray-500 text-lg font-medium mr-[60px] ">
+              Rank
+            </span>
+            <span className=" text-gray-500 text-lg font-medium  mr-[155px]">
+              Name
+            </span>
+            <span className=" text-gray-500 text-lg font-medium  text-right">
+              Score
+            </span>
           </div>
           {rankingData.map((item, index) => (
-            <div key={index} className="flex justify-between py-2">
-              <span className="w-[100px]">{index + 1}</span>
-              <span>{item.name}</span>
-              <span className="text-right">{item.score}</span>
+            <div key={index} className="flex  py-3 border-t border-gray-300">
+              <span className="text-lg w-[50px]">{index + 1}</span>
+              <span className="text-lg text-center w-[150px]">{item.name}</span>
+              <span className="text-right text-lg w-[150px]">{item.score}</span>
             </div>
           ))}
         </div>

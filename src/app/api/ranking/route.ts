@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 // 현재 작업 디렉터리에서 "ranking.json" 파일의 경로를 생성
-const filePath = path.join(process.cwd(), "rankingData.json");
+const filePath = path.join(process.cwd(), "public", "rankingData.json");
 
 // GET 요청 핸들러
 export async function GET() {
