@@ -5,4 +5,7 @@ export default interface GameStates {
   setGameScore: (score: number) => void;
   rankName: string;
   setRankName: (name: string) => void;
+  newGame: boolean;
+  setNewGame: (state: boolean) => void;
+  startNewGame: () => void;
 }
