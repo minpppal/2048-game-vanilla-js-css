@@ -5,7 +5,8 @@ import useGameStatesStore from "@/store/gameStatesStore";
 import GameOverModal from "../modal/GameOverModal";
 
 const TileBox: React.FC = () => {
-  const { gameOver, setGameOver, setGameScore } = useGameStatesStore();
+  const { gameOver, setGameOver, setGameScore, newGame, setNewGame } =
+    useGameStatesStore();
   const [tileNumbers, setTileNumbers] = useState<(number | null)[]>(
     Array(16).fill(null)
   );
@@ -37,9 +38,19 @@ const TileBox: React.FC = () => {
 
   // 게임 시작 시 초기 숫자 2개 추가
   useEffect(() => {
-    addRandomTile(); // 첫 번째 숫자 추가
-    addRandomTile(); // 두 번째 숫자 추가
-  }, []); // 컴포넌트가 처음 렌더링될 때만 실행
+    if (newGame) {
+      setTileNumbers(Array(16).fill(null)); // 타일을 초기화
+      scoreIncrease.current = 0; // 점수 초기화
+      setGameScore(0); // 점수 상태 초기화
+      addRandomTile(); // 첫 번째 숫자 추가
+      addRandomTile(); // 두 번째 숫자 추가
+    }
+  }, [newGame]); // `newGame` 상태가 변경될 때마다 실행
+
+  // 첫 렌더링 시 newGame을 true로 설정하여 타일이 생성되도록 설정
+  useEffect(() => {
+    setNewGame(true); // 첫 번째 렌더링 시 newGame을 true로 설정
+  }, []); // 빈 배열로 두어 처음 한 번만 실행되도록 설정
 
   /**
    * 방향키 입력 처리

@@ -5,12 +5,16 @@ import useGameStatesStore from "@/store/gameStatesStore";
 import GameScore from "../gameScore/GameScore";
 
 const Game = () => {
-  const { gameOver } = useGameStatesStore();
+  const { gameOver, startNewGame } = useGameStatesStore();
+
   return (
     <div className="flex flex-col justify-center items-center w-[500px] mt-[100px] relative">
       <div className="flex mb-[10px] items-center">
         <GameScore />
-        <button className="bg-orange-400 text-[20px] w-[110px] h-[40px] rounded-lg font-semibold text-white ml-[54px]">
+        <button
+          onClick={startNewGame}
+          className="bg-orange-400 text-[20px] w-[110px] h-[40px] rounded-lg font-semibold text-white ml-[54px]"
+        >
           New Game
         </button>
       </div>
